@@ -1,5 +1,5 @@
-from infraBD.models.products import Product
-from infraBD.config.connection import db
+from app.infraBD.models.products import Product
+from app.infraBD.config.connection import db
 from datetime import datetime, timezone
 
 class ProductsRepository:

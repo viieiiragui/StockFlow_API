@@ -1,5 +1,5 @@
-from infraBD.models.transactions import Transactions, TransactionType
-from infraBD.config.connection import db
+from app.infraBD.models.transactions import Transactions, TransactionType
+from app.infraBD.config.connection import db
 
 class TransactionsRepository:
     def insert_transaction(self, product_id: int, type: TransactionType, quantity: int, blockchain_hash: str):

@@ -1,4 +1,4 @@
-from infraBD.config.connection import db
+from app.infraBD.config.connection import db
 from sqlalchemy import Column, Integer, String, DateTime, Enum
 from datetime import datetime, timezone
 from enum import Enum as PyEnum
@@ -15,6 +15,6 @@ class Users(db.Model):
     name = Column(String(255), nullable=False)
     email = Column(String(255), unique=True, nullable=False)
     password_hash = Column(String(255), nullable=False)
-    permission = Column(Enum(PermissionType), nullable=False)
+    permission = Column(Enum(PermissionType, name="permissiontype", create_type=False), nullable=False)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))

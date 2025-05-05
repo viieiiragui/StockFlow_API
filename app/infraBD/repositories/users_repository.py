@@ -1,5 +1,5 @@
-from infraBD.models.users import Users, PermissionType
-from infraBD.config.connection import db
+from app.infraBD.models.users import Users, PermissionType
+from app.infraBD.config.connection import db
 from datetime import datetime, timezone
 
 class UsersRepository:
