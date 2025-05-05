@@ -3,6 +3,12 @@ from app.infraBD.repositories.products_repositorie import ProductsRepository
 def create_product(data):
     repo = ProductsRepository()
 
+    if "name" in data:
+        data["name"] = data["name"].strip().title()
+
+    if "category" in data:
+        data["category"] = data["category"].strip().title()
+
     existing = repo.select_by_name(data["name"])
     if existing:
         raise ValueError("A product with this name already exists.")
@@ -28,9 +34,13 @@ def update_product(id: int, data: dict):
         raise ValueError("Product not found")
 
     if "name" in data:
+        data["name"] = data["name"].strip().title()
         same_name = repo.select_by_name(data["name"])
         if same_name and same_name.id != id:
             raise ValueError("Another product with this name already exists.")
+    
+    if "category" in data:
+        data["category"] = data["category"].strip().title()
 
     if data.get("current_stock") is not None and data.get("add_stock") is not None:
         raise ValueError("Use only current_stock OR add_stock")

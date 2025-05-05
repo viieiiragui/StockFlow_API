@@ -6,7 +6,7 @@ product_bp = Blueprint('product', __name__)
 
 @product_bp.route('/product', methods=['POST'])
 @permission_required('admin')
-def create():
+def create_product():
     return create_product_controller(request.json)
 
 @product_bp.route("/product", methods=["GET"])
