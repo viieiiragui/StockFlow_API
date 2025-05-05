@@ -1,7 +1,7 @@
-from flask import request, jsonify
+from flask import jsonify
 from marshmallow import ValidationError
 from app.schemas.product_schema import ProductSchema
-from app.services.product_service import create_product
+from app.services.product_service import create_product, get_product_by_id
 
 def create_product_controller(data):
     try:
@@ -34,6 +34,19 @@ def list_products_controller():
         data = schema.dump(product)
 
         return jsonify(data), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+def get_product_controller(id):
+    try:
+        product = get_product_by_id(id)
+
+        if not product:
+            return jsonify({"error": "Product not found"}), 404
+
+        schema = ProductSchema()
+        return jsonify(schema.dump(product)), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

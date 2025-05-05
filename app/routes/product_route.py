@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from app.controllers.product_controller import create_product_controller, list_products_controller
+from app.controllers.product_controller import create_product_controller, list_products_controller, get_product_controller
 from app.auth.permissions import permission_required
 
 product_bp = Blueprint('product', __name__)
@@ -13,3 +13,8 @@ def create():
 @permission_required("viewer")
 def list_products():
     return list_products_controller()
+
+@product_bp.route("/product/<int:id>", methods=["GET"])
+@permission_required("viewer")
+def get_product(id):
+    return get_product_controller(id)

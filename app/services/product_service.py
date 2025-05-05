@@ -13,3 +13,7 @@ def create_product(data):
 def get_all_products():
     repo = ProductsRepository()
     return repo.select_all_products()
+
+def get_product_by_id(id: int):
+    repo = ProductsRepository()
+    return repo.select_product_by_id(id)

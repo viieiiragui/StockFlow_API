@@ -50,3 +50,6 @@ class ProductsRepository:
     
     def select_by_name(self, name):
         return db.session.query(Products).filter(Products.name.ilike(name)).first()
+
+    def select_product_by_id(self, id: int):
+        return db.session.query(Products).filter(Products.id == id).first()
