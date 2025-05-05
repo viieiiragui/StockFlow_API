@@ -1,0 +1,11 @@
+from app.infraBD.repositories.products_repositorie import ProductsRepository
+
+def create_product(data):
+    repo = ProductsRepository()
+
+    existing = repo.select_by_name(data["name"])
+    if existing:
+        raise ValueError("A product with this name already exists.")
+
+    produto = repo.insert_product(data)
+    return produto

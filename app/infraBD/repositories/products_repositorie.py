@@ -1,13 +1,13 @@
-from app.infraBD.models.products import Product
+from app.infraBD.models.products import Products
 from app.infraBD.config.connection import db
 from datetime import datetime, timezone
 
 class ProductsRepository:
-    def insert_product(self, name: str, category: str, current_stock: int):
-        data_insert = Product(
-            name = name,
-            category = category,
-            current_stock = current_stock,
+    def insert_product(self, data: dict):
+        data_insert = Products(
+            name=data["name"],
+            category=data["category"],
+            current_stock=data["current_stock"]
         )
 
         db.session.add(data_insert)
@@ -16,7 +16,7 @@ class ProductsRepository:
         return data_insert
 
     def update_product(self, id: int, name: str = None, category: str = None, current_stock: int = None, add_stock: int = None):
-        actual_product = db.session.query(Product).filter(Product.id==id).first()
+        actual_product = db.session.query(Products).filter(Products.id==id).first()
         
         if not actual_product:
             return None
@@ -39,12 +39,14 @@ class ProductsRepository:
         return actual_product
 
     def delete_product(self, id: int):
-        result = db.session.query(Product).filter(Product.id==id).delete()
+        result = db.session.query(Products).filter(Products.id==id).delete()
         db.session.commit()
 
         return result > 0
 
     def select_all_products(self):
-        data = db.session.query(Product).all()
+        data = db.session.query(Products).all()
         return data
     
+    def select_by_name(self, name):
+        return db.session.query(Products).filter(Products.name.ilike(name)).first()
