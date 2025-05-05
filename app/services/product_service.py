@@ -42,3 +42,10 @@ def update_product(id: int, data: dict):
         current_stock=data.get("current_stock"),
         add_stock=data.get("add_stock")
     )
+
+def delete_product(id: int):
+    repo = ProductsRepository()
+    deleted = repo.delete_product(id)
+    
+    if not deleted:
+        raise ValueError("Product not found")

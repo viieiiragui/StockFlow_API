@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from marshmallow import ValidationError
 from app.schemas.product_schema import ProductSchema
-from app.services.product_service import create_product, get_product_by_id, get_all_products, update_product
+from app.services.product_service import create_product, get_product_by_id, get_all_products, update_product, delete_product
 
 def create_product_controller(data):
     try:
@@ -68,6 +68,17 @@ def update_product_controller(id):
 
     except ValueError as ve:
         return jsonify({"error": str(ve)}), 400
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+def delete_product_controller(id):
+    try:
+        delete_product(id)
+        return '', 204
+
+    except ValueError as ve:
+        return jsonify({"error": str(ve)}), 404
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
