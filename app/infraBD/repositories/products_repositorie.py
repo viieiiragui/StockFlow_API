@@ -53,3 +53,6 @@ class ProductsRepository:
 
     def select_product_by_id(self, id: int):
         return db.session.query(Products).filter(Products.id == id).first()
+    
+    def select_products_by_name(self, name: str):
+        return db.session.query(Products).filter(Products.name.ilike(f"%{name}%")).all()

@@ -18,3 +18,4 @@ def list_products():
 @permission_required("viewer")
 def get_product(id):
     return get_product_controller(id)
+

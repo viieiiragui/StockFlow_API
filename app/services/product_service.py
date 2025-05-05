@@ -10,8 +10,10 @@ def create_product(data):
     produto = repo.insert_product(data)
     return produto
 
-def get_all_products():
+def get_all_products(name=None):
     repo = ProductsRepository()
+    if name:
+        return repo.select_products_by_name(name)
     return repo.select_all_products()
 
 def get_product_by_id(id: int):
