@@ -41,3 +41,7 @@ class UsersRepository:
 
     def select_all_users(self):
         return db.session.query(Users).all()
+    
+    def select_user_by_email(self, email):
+        user = db.session.query(Users).filter_by(email=email).first()
+        return user

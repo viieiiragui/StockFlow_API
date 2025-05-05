@@ -6,4 +6,5 @@ if find_dotenv():
 
 class Config:
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL", "postgresql+psycopg2://seu_user:suasenha@localhost/seu_banco")
+    SECRET_KEY = os.getenv("SECRET_KEY", "123456789")
     SQLALCHEMY_TRACK_MODIFICATIONS = False

@@ -10,6 +10,9 @@ def create_app():
     db.init_app(app)
     Migrate(app, db)
 
+    from app.routes.auth_routes import auth_bp
+    app.register_blueprint(auth_bp)
+
     with app.app_context():
         from app.infraBD.models import products, users, transactions
 
