@@ -22,3 +22,8 @@ class ProductSchema(Schema):
         validate=validate.Range(min=0, error="Current stock must be zero or positive."),
         error_messages={"required": "The current_stock field is required."}
     )
+
+    add_stock = fields.Int(
+        required=False,
+        validate=validate.Range(min=1, error="Stock to add must be positive.")
+    )

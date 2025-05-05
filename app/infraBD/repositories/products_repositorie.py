@@ -16,27 +16,27 @@ class ProductsRepository:
         return data_insert
 
     def update_product(self, id: int, name: str = None, category: str = None, current_stock: int = None, add_stock: int = None):
-        actual_product = db.session.query(Products).filter(Products.id==id).first()
-        
-        if not actual_product:
+        product = db.session.query(Products).filter(Products.id == id).first()
+
+        if not product:
             return None
 
         if current_stock is not None and add_stock is not None:
-            raise ValueError("Use 'current_stock' or 'add_stock'")
+            raise ValueError("Use only current_stock OR add_stock")
 
         if name is not None:
-            actual_product.name = name
+            product.name = name
         if category is not None:
-            actual_product.category = category
+            product.category = category
         if current_stock is not None:
-            actual_product.current_stock = current_stock
+            product.current_stock = current_stock
         if add_stock is not None:
-            actual_product.current_stock += add_stock
-        
-        actual_product.updated_at = datetime.now(timezone.utc)
+            product.current_stock += add_stock
+
+        product.updated_at = datetime.now(timezone.utc)
         db.session.commit()
 
-        return actual_product
+        return product
 
     def delete_product(self, id: int):
         result = db.session.query(Products).filter(Products.id==id).delete()
