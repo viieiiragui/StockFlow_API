@@ -23,3 +23,17 @@ def create_product_controller(data):
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+def list_products_controller():
+    try:
+        from app.services.product_service import get_all_products
+
+        product = get_all_products()
+
+        schema = ProductSchema(many=True)
+        data = schema.dump(product)
+
+        return jsonify(data), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

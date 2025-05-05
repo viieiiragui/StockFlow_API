@@ -9,3 +9,7 @@ def create_product(data):
 
     produto = repo.insert_product(data)
     return produto
+
+def get_all_products():
+    repo = ProductsRepository()
+    return repo.select_all_products()
