@@ -18,3 +18,12 @@ def format_transaction(transaction):
         "created_at": transaction.created_at.isoformat()
     }
 
+def format_user(user):
+    return {
+        "id": user.id,
+        "name": user.name,
+        "email": user.email,
+        "permission": user.permission.value,
+        "created_at": user.created_at.isoformat(),
+        "updated_at": user.updated_at.isoformat() if user.updated_at else None
+    }

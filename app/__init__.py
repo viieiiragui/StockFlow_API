@@ -19,6 +19,9 @@ def create_app():
     from app.routes.transaction_route import transaction_bp
     app.register_blueprint(transaction_bp)
 
+    from app.routes.user_route import user_bp
+    app.register_blueprint(user_bp)
+
     with app.app_context():
         from app.infraDB.models import products, users, transactions
 
