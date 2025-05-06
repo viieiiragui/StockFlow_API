@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 class ProductsRepository:
     def insert_product(self, data: dict):
         data_insert = Products(
+            code=data["code"],
             name=data["name"],
             category=data["category"],
             current_stock=data["current_stock"]
@@ -56,3 +57,6 @@ class ProductsRepository:
     
     def select_products_by_name(self, name: str):
         return db.session.query(Products).filter(Products.name.ilike(f"%{name}%")).all()
+
+    def select_by_code(self, code: str):
+        return db.session.query(Products).filter(Products.code == code).first()

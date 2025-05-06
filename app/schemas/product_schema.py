@@ -27,3 +27,9 @@ class ProductSchema(Schema):
         required=False,
         validate=validate.Range(min=1, error="Stock to add must be positive.")
     )
+
+    code = fields.Str(
+        required=True,
+        validate=validate.Length(min=1, max=10, error="Code must be between 1 and 10 characters."),
+        error_messages={"required": "The code field is required."}
+    )

@@ -21,8 +21,9 @@ def create_product_controller(data):
 def list_products_controller():
     try:
         name = request.args.get("name")
+        code = request.args.get("code")
 
-        products = get_all_products(name)
+        products = get_all_products(name=name, code=code)
 
         return jsonify(format_product_list(products)), 200
 

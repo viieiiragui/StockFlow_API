@@ -9,6 +9,10 @@ def create_product(data):
     if "category" in data:
         data["category"] = data["category"].strip().title()
 
+    existingCode = repo.select_by_code(data["code"])
+    if existingCode:
+        raise ValueError("A product with this code already exists.")
+
     existing = repo.select_by_name(data["name"])
     if existing:
         raise ValueError("A product with this name already exists.")
@@ -16,10 +20,16 @@ def create_product(data):
     produto = repo.insert_product(data)
     return produto
 
-def get_all_products(name=None):
+def get_all_products(name=None, code=None):
     repo = ProductsRepository()
+
+    if code:
+        product = repo.select_by_code(code)
+        return [product] if product else []
+
     if name:
         return repo.select_products_by_name(name)
+
     return repo.select_all_products()
 
 def get_product_by_id(id: int):
