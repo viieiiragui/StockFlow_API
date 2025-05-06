@@ -70,3 +70,12 @@ class ProductsRepository:
         db.session.commit()
 
         return product
+
+    def remove_stock(self, product_id: int, quantity: int):
+        product = self.select_product_by_id(product_id)
+        if not product or product.current_stock < quantity:
+            return None
+        product.current_stock -= quantity
+        product.updated_at = datetime.now(timezone.utc)
+        db.session.commit()
+        return product
