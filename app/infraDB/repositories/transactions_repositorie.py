@@ -25,3 +25,10 @@ class TransactionsRepository:
     def select_transactions_by_product(self, product_id: int):
         data = db.session.query(Transactions).filter_by(product_id=product_id).all()
         return data
+
+    def select_transaction_by_id(self, transaction_id: int):
+        data = db.session.query(Transactions).filter_by(id=transaction_id).first()
+        return data
+
+    def select_transactions_by_user(self, user_id: int):
+        return db.session.query(Transactions).filter(Transactions.user_id == user_id).all()
