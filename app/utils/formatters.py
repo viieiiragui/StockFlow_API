@@ -18,5 +18,3 @@ def format_transaction(transaction):
         "created_at": transaction.created_at.isoformat()
     }
 
-def format_transaction_list(transactions):
-    return [format_transaction(tx) for tx in transactions]
