@@ -59,3 +59,7 @@ def create_exit_transaction(data, user_email, user_id):
     )
 
     return transaction
+
+def get_all_transactions_service():
+    repo = TransactionsRepository()
+    return repo.select_all_transactions()

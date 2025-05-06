@@ -10,11 +10,11 @@ def format_transaction(transaction):
     return {
         "id": transaction.id,
         "product_id": transaction.product_id,
+        "user_id": transaction.user_id,
+        "user_email": transaction.user.email if hasattr(transaction, "user") and transaction.user else None,
         "type": transaction.type.value,
         "quantity": transaction.quantity,
         "blockchain_hash": transaction.blockchain_hash,
-        "user_id": transaction.user_id,
-        "user_email": transaction.user.email,
         "created_at": transaction.created_at.isoformat()
     }
 

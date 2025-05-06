@@ -1,7 +1,7 @@
 from flask import request, jsonify, current_app
 from marshmallow import ValidationError
 from app.schemas.transaction_schema import TransactionInputSchema
-from app.services.transaction_service import create_entry_transaction, create_exit_transaction
+from app.services.transaction_service import create_entry_transaction, create_exit_transaction, get_all_transactions_service
 from app.utils.formatters import format_transaction
 import jwt
 
@@ -61,5 +61,12 @@ def create_exit_controller():
         return jsonify({"errors": ve.messages}), 400
     except ValueError as ve:
         return jsonify({"error": str(ve)}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+def get_all_transactions_controller():
+    try:
+        transactions = get_all_transactions_service()
+        return jsonify([format_transaction(t) for t in transactions]), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500

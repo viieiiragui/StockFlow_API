@@ -13,3 +13,8 @@ def create_entry():
 @permission_required("operator")
 def create_exit():
     return create_exit_controller()
+
+@transaction_bp.route("/transactions", methods=["GET"])
+@permission_required("viewer")
+def get_all_transactions():
+    return get_all_transactions_controller()
