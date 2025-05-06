@@ -1,4 +1,4 @@
-from app.infraBD.repositories.products_repositorie import ProductsRepository
+from app.infraDB.repositories.products_repositorie import ProductsRepository
 
 def create_product(data):
     repo = ProductsRepository()

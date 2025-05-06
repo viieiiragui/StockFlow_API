@@ -1,5 +1,5 @@
 from sqlalchemy.orm import relationship
-from app.infraBD.config.connection import db
+from app.infraDB.config.connection import db
 from datetime import datetime, timezone
 from sqlalchemy import Column, Integer, String, DateTime
 

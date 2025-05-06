@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_migrate import Migrate
 from config import Config
-from app.infraBD.config.connection import db
+from app.infraDB.config.connection import db
 
 def create_app():
     app = Flask(__name__)
@@ -17,6 +17,6 @@ def create_app():
     app.register_blueprint(product_bp)
 
     with app.app_context():
-        from app.infraBD.models import products, users, transactions
+        from app.infraDB.models import products, users, transactions
 
     return app

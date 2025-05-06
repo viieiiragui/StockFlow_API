@@ -1,7 +1,7 @@
 from enum import Enum as PyEnum
 from sqlalchemy import Column, Integer, String, DateTime, Enum, ForeignKey
 from datetime import datetime, timezone
-from app.infraBD.config.connection import db
+from app.infraDB.config.connection import db
 
 class TransactionType(PyEnum):
     ENTRY = "entry"

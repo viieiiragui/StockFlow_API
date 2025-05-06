@@ -1,5 +1,5 @@
 import bcrypt
-from app.infraBD.repositories.users_repository import UsersRepository
+from app.infraDB.repositories.users_repository import UsersRepository
 from app.services.jwt_service import generate_jwt
 
 def authenticate_user(email: str, senha: str):

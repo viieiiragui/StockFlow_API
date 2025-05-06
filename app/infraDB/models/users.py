@@ -1,4 +1,4 @@
-from app.infraBD.config.connection import db
+from app.infraDB.config.connection import db
 from sqlalchemy import Column, Integer, String, DateTime, Enum
 from datetime import datetime, timezone
 from enum import Enum as PyEnum
