@@ -60,3 +60,13 @@ class ProductsRepository:
 
     def select_by_code(self, code: str):
         return db.session.query(Products).filter(Products.code == code).first()
+
+    def add_stock(self, product_id: int, quantity: int):
+        product = self.select_product_by_id(product_id)
+        if not product:
+            return None
+        product.current_stock += quantity
+        product.updated_at = datetime.now(timezone.utc)
+        db.session.commit()
+
+        return product

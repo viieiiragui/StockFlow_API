@@ -1,13 +1,13 @@
 from app.infraDB.models.transactions import Transactions, TransactionType
 from app.infraDB.config.connection import db
-
 class TransactionsRepository:
-    def insert_transaction(self, product_id: int, type: TransactionType, quantity: int, blockchain_hash: str):
+    def insert_transaction(self, product_id, type, quantity, blockchain_hash, user_id):
         data_insert = Transactions(
             product_id=product_id,
             type=type,
             quantity=quantity,
-            blockchain_hash=blockchain_hash
+            blockchain_hash=blockchain_hash,
+            user_id=user_id
         )
         db.session.add(data_insert)
         db.session.commit()
