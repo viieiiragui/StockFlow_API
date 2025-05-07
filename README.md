@@ -1,4 +1,4 @@
-# 📦 Blockchain Yuka - Inventory & Transaction API
+# 📦 StockFlow - Inventory & Transaction API
 
 RESTful API for product and transaction management with JWT authentication, user permissions, and blockchain (hash) logging.
 
