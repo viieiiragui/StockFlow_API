@@ -5,7 +5,8 @@ Defines CRUD controller functions for user resources, handling HTTP requests,
 validating input, invoking service layer operations, and formatting responses.
 """
 
-from flask import request, jsonify
+from flask import request, jsonify, current_app
+import jwt
 from app.schemas.user_schema import UserInputSchema, UserUpdateSchema
 from app.services.user_service import (
     create_user_service,
@@ -151,9 +152,26 @@ def delete_user_controller(id):
                   or error messages with HTTP 400/404/500 on failure.
     """
     try:
-        # Validate that ID is positive
-        if id <= 0:
-            return jsonify({"error": "User ID must be positive"}), 400
+
+        token = request.headers.get("Authorization", "").replace("Bearer ", "")
+        if not token:
+            return jsonify({"error": "Token not provided"}), 401
+
+        try:
+            payload = jwt.decode(
+                token,
+                current_app.config["SECRET_KEY"],
+                algorithms=["HS256"]
+            )
+            current_user_id = payload["user_id"]
+
+        except jwt.ExpiredSignatureError:
+            return jsonify({"error": "Token expired"}), 401
+        except jwt.InvalidTokenError:
+            return jsonify({"error": "Invalid token"}), 401
+        
+        if id == current_user_id:
+            return jsonify({"error": "Admin cannot delete their own account"}), 403
 
         # Delete user via service layer
         delete_user_service(id)

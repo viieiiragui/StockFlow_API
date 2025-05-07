@@ -19,11 +19,11 @@ from app.auth.permissions import permission_required
 
 transaction_bp = Blueprint('transaction', __name__)
 
-@transaction_bp.route('/entry', methods=['POST'])  # Endpoint to create entry transactions
+@transaction_bp.route('/api/transactions/entry', methods=['POST'])  # Endpoint to create entry transactions
 @permission_required('operator')
 def create_entry():
     """
-    Handle POST /entry to create an entry transaction for a product.
+    Handle POST /api/transactions/entry to create an entry transaction for a product.
 
     Requires 'operator' permission.
     Delegates to create_entry_controller which validates input and decodes JWT.
@@ -34,11 +34,11 @@ def create_entry():
     """
     return create_entry_controller()
 
-@transaction_bp.route('/exit', methods=['POST'])  # Endpoint to create exit transactions
+@transaction_bp.route('/api/transactions/exit', methods=['POST'])  # Endpoint to create exit transactions
 @permission_required('operator')
 def create_exit():
     """
-    Handle POST /exit to create an exit transaction for a product.
+    Handle POST /api/transactions/exit to create an exit transaction for a product.
 
     Requires 'operator' permission.
     Delegates to create_exit_controller which validates input and decodes JWT.
@@ -49,11 +49,11 @@ def create_exit():
     """
     return create_exit_controller()
 
-@transaction_bp.route('/transactions', methods=['GET'])  # Endpoint to list all transactions
+@transaction_bp.route('/api/transactions', methods=['GET'])  # Endpoint to list all transactions
 @permission_required('viewer')
 def get_all_transactions():
     """
-    Handle GET /transactions to retrieve all transactions.
+    Handle GET /api/transactions to retrieve all transactions.
 
     Requires 'viewer' permission.
 
@@ -63,11 +63,11 @@ def get_all_transactions():
     """
     return get_all_transactions_controller()
 
-@transaction_bp.route('/transactions/by-product/<int:product_id>', methods=['GET'])  # Filter transactions by product
+@transaction_bp.route('/api/transactions/by-product/<int:product_id>', methods=['GET'])  # Filter transactions by product
 @permission_required('viewer')
 def get_transactions_by_product(product_id):
     """
-    Handle GET /transactions/by-product/<product_id> to retrieve transactions for a specific product.
+    Handle GET /api/transactions/by-product/<product_id> to retrieve transactions for a specific product.
 
     Requires 'viewer' permission.
 
@@ -80,11 +80,11 @@ def get_transactions_by_product(product_id):
     """
     return get_transactions_by_product_controller(product_id)
 
-@transaction_bp.route('/transactions/<int:id>', methods=['DELETE'])  # Endpoint to delete a transaction
+@transaction_bp.route('/api/transactions/delete/<int:id>', methods=['DELETE'])  # Endpoint to delete a transaction
 @permission_required('admin')
 def delete_transaction(id):
     """
-    Handle DELETE /transactions/<id> to remove a transaction by its ID.
+    Handle DELETE /api/transactions/<id> to remove a transaction by its ID.
 
     Requires 'admin' permission.
 
@@ -97,11 +97,11 @@ def delete_transaction(id):
     """
     return delete_transaction_controller(id)
 
-@transaction_bp.route('/transactions/<int:transaction_id>', methods=['GET'])  # Endpoint to get a transaction by ID
+@transaction_bp.route('/api/transactions/<int:transaction_id>', methods=['GET'])  # Endpoint to get a transaction by ID
 @permission_required('viewer')
 def get_transaction_by_id_route(transaction_id):
     """
-    Handle GET /transactions/<transaction_id> to retrieve a specific transaction by its ID.
+    Handle GET /api/transactions/<transaction_id> to retrieve a specific transaction by its ID.
 
     Requires 'viewer' permission.
 
@@ -114,11 +114,11 @@ def get_transaction_by_id_route(transaction_id):
     """
     return get_transaction_by_id_controller(transaction_id)
 
-@transaction_bp.route('/user/transactions', methods=['GET'])  # Endpoint to get transactions for authenticated user
+@transaction_bp.route('/api/user/transactions', methods=['GET'])  # Endpoint to get transactions for authenticated user
 @permission_required('viewer')
 def get_transactions_by_user():
     """
-    Handle GET /user/transactions to retrieve transactions of the authenticated user.
+    Handle GET /api/user/transactions to retrieve transactions of the authenticated user.
 
     Requires 'viewer' permission.
     Delegates JWT decoding and retrieval to controller.

@@ -17,11 +17,11 @@ from app.auth.permissions import permission_required
 
 product_bp = Blueprint('product', __name__)
 
-@product_bp.route('/product', methods=['POST'])
+@product_bp.route('/api/product/create', methods=['POST'])
 @permission_required('admin')
 def create_product():
     """
-    Handle POST /product endpoint to create a new product.
+    Handle POST /api/product endpoint to create a new product.
 
     Requires 'admin' permission.
     Expects JSON payload with product attributes.
@@ -32,11 +32,11 @@ def create_product():
     """
     return create_product_controller(request.json)
 
-@product_bp.route('/product', methods=['GET'])
+@product_bp.route('/api/product', methods=['GET'])
 @permission_required('viewer')
 def list_products():
     """
-    Handle GET /product endpoint to list all products.
+    Handle GET /api/product endpoint to list all products.
 
     Requires at least 'viewer' permission.
     Supports optional query parameters 'name' and 'code'.
@@ -47,11 +47,11 @@ def list_products():
     """
     return list_products_controller()
 
-@product_bp.route('/product/<int:id>', methods=['GET'])
+@product_bp.route('/api/product/<int:id>', methods=['GET'])
 @permission_required('viewer')
 def get_product(id):
     """
-    Handle GET /product/<id> endpoint to retrieve a specific product.
+    Handle GET /api/product/<id> endpoint to retrieve a specific product.
 
     Requires at least 'viewer' permission.
 
@@ -64,7 +64,7 @@ def get_product(id):
     """
     return get_product_controller(id)
 
-@product_bp.route('/product/<int:id>', methods=['PUT'])
+@product_bp.route('/api/product/update/<int:id>', methods=['PUT'])
 @permission_required('admin')
 def update_product_route(id):
     """
@@ -82,7 +82,7 @@ def update_product_route(id):
     """
     return update_product_controller(id)
 
-@product_bp.route('/product/<int:id>', methods=['DELETE'])
+@product_bp.route('/api/product/delete/<int:id>', methods=['DELETE'])
 @permission_required('admin')
 def delete_product_route(id):
     """

@@ -129,6 +129,7 @@ def delete_user_service(id):
     Raises:
         ValueError: If no user exists with the given ID.
     """
+
     repo = UsersRepository()
     # Attempt deletion; returns False if no rows affected
     success = repo.delete_user(id)

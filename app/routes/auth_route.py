@@ -10,10 +10,10 @@ from app.controllers.auth_controller import user_login
 
 auth_bp = Blueprint('auth', __name__)
 
-@auth_bp.route('/login', methods=['POST'])
+@auth_bp.route('/api/login', methods=['POST'])
 def login():
     """
-    Handle POST requests to '/login' for user authentication.
+    Handle POST requests to '/api/login' for user authentication.
 
     Expects JSON payload with 'email' and 'password'.
     Delegates validation and token generation to user_login.

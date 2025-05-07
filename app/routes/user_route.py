@@ -17,11 +17,11 @@ from app.auth.permissions import permission_required
 
 user_bp = Blueprint("user", __name__)
 
-@user_bp.route("/users", methods=["POST"])
+@user_bp.route("/api/users/create", methods=["POST"])
 @permission_required("admin")
 def create_user():
     """
-    Handle POST /users to create a new user.
+    Handle POST /api/users/create to create a new user.
 
     Requires 'admin' permission.
     Delegates to create_user_controller, which validates input via UserInputSchema
@@ -33,11 +33,11 @@ def create_user():
     """
     return create_user_controller()
 
-@user_bp.route("/users", methods=["GET"])
+@user_bp.route("/api/users", methods=["GET"])
 @permission_required("admin")
 def list_users():
     """
-    Handle GET /users to retrieve all users.
+    Handle GET /api/users to retrieve all users.
 
     Requires 'admin' permission.
     Delegates to get_all_users_controller, which fetches and formats user list.
@@ -48,11 +48,11 @@ def list_users():
     """
     return get_all_users_controller()
 
-@user_bp.route("/users/<int:id>", methods=["GET"])
+@user_bp.route("/api/users/<int:id>", methods=["GET"])
 @permission_required("admin")
 def get_user_by_id(id):
     """
-    Handle GET /users/<id> to retrieve a single user by ID.
+    Handle GET /api/users/<id> to retrieve a single user by ID.
 
     Requires 'admin' permission.
 
@@ -65,11 +65,11 @@ def get_user_by_id(id):
     """
     return get_user_by_id_controller(id)
 
-@user_bp.route("/users/<int:id>", methods=["PUT"])
+@user_bp.route("/api/users/update/<int:id>", methods=["PUT"])
 @permission_required("admin")
 def update_user(id):
     """
-    Handle PUT /users/<id> to update an existing user.
+    Handle PUT /api/users/<id> to update an existing user.
 
     Requires 'admin' permission.
     Delegates to update_user_controller, which validates input via UserUpdateSchema
@@ -84,11 +84,11 @@ def update_user(id):
     """
     return update_user_controller(id)
 
-@user_bp.route("/users/<int:id>", methods=["DELETE"])
+@user_bp.route("/api/users/<int:id>", methods=["DELETE"])
 @permission_required("admin")
 def delete_user(id):
     """
-    Handle DELETE /users/<id> to remove a user by ID.
+    Handle DELETE /api/users/<id> to remove a user by ID.
 
     Requires 'admin' permission.
 
