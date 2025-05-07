@@ -1,40 +1,130 @@
+"""
+Transaction blueprint module.
+
+Defines endpoints for creating entry and exit transactions, retrieving, and deleting transactions
+with JWT-based permission checks, delegating logic to controller functions.
+"""
+
 from flask import Blueprint
-from app.controllers.transaction_controller import create_entry_controller, create_exit_controller, get_all_transactions_controller, get_transactions_by_product_controller, delete_transaction_controller, get_transaction_by_id_controller, get_transactions_by_user_controller
+from app.controllers.transaction_controller import (
+    create_entry_controller,
+    create_exit_controller,
+    get_all_transactions_controller,
+    get_transactions_by_product_controller,
+    delete_transaction_controller,
+    get_transaction_by_id_controller,
+    get_transactions_by_user_controller
+)
 from app.auth.permissions import permission_required
 
 transaction_bp = Blueprint('transaction', __name__)
 
-@transaction_bp.route("/entry", methods=["POST"])
-@permission_required("operator")
+@transaction_bp.route('/entry', methods=['POST'])  # Endpoint to create entry transactions
+@permission_required('operator')
 def create_entry():
+    """
+    Handle POST /entry to create an entry transaction for a product.
+
+    Requires 'operator' permission.
+    Delegates to create_entry_controller which validates input and decodes JWT.
+
+    Returns:
+        Response: JSON-formatted transaction and HTTP 201 on success,
+                  or error messages with appropriate status codes.
+    """
     return create_entry_controller()
 
-@transaction_bp.route("/exit", methods=["POST"])
-@permission_required("operator")
+@transaction_bp.route('/exit', methods=['POST'])  # Endpoint to create exit transactions
+@permission_required('operator')
 def create_exit():
+    """
+    Handle POST /exit to create an exit transaction for a product.
+
+    Requires 'operator' permission.
+    Delegates to create_exit_controller which validates input and decodes JWT.
+
+    Returns:
+        Response: JSON-formatted transaction and HTTP 201 on success,
+                  or error messages with appropriate status codes.
+    """
     return create_exit_controller()
 
-@transaction_bp.route("/transactions", methods=["GET"])
-@permission_required("viewer")
+@transaction_bp.route('/transactions', methods=['GET'])  # Endpoint to list all transactions
+@permission_required('viewer')
 def get_all_transactions():
+    """
+    Handle GET /transactions to retrieve all transactions.
+
+    Requires 'viewer' permission.
+
+    Returns:
+        Response: JSON list of transactions and HTTP 200 on success,
+                  or error message with HTTP 500 on failure.
+    """
     return get_all_transactions_controller()
 
-@transaction_bp.route("/transactions/by-product/<int:product_id>", methods=["GET"])
-@permission_required("viewer")
+@transaction_bp.route('/transactions/by-product/<int:product_id>', methods=['GET'])  # Filter transactions by product
+@permission_required('viewer')
 def get_transactions_by_product(product_id):
+    """
+    Handle GET /transactions/by-product/<product_id> to retrieve transactions for a specific product.
+
+    Requires 'viewer' permission.
+
+    Args:
+        product_id (int): ID of the product to filter transactions.
+
+    Returns:
+        Response: JSON list of transactions and HTTP 200 on success,
+                  or 404/500 on error.
+    """
     return get_transactions_by_product_controller(product_id)
 
-@transaction_bp.route("/transactions/<int:id>", methods=["DELETE"])
-@permission_required("admin")
+@transaction_bp.route('/transactions/<int:id>', methods=['DELETE'])  # Endpoint to delete a transaction
+@permission_required('admin')
 def delete_transaction(id):
+    """
+    Handle DELETE /transactions/<id> to remove a transaction by its ID.
+
+    Requires 'admin' permission.
+
+    Args:
+        id (int): Identifier of the transaction to delete.
+
+    Returns:
+        Response: Success message and HTTP 200 on success,
+                  or error message with HTTP 404 if not found.
+    """
     return delete_transaction_controller(id)
 
-@transaction_bp.route("/transactions/<int:transaction_id>", methods=["GET"])
-@permission_required("viewer")
+@transaction_bp.route('/transactions/<int:transaction_id>', methods=['GET'])  # Endpoint to get a transaction by ID
+@permission_required('viewer')
 def get_transaction_by_id_route(transaction_id):
+    """
+    Handle GET /transactions/<transaction_id> to retrieve a specific transaction by its ID.
+
+    Requires 'viewer' permission.
+
+    Args:
+        transaction_id (int): Identifier of the transaction.
+
+    Returns:
+        Response: JSON-formatted transaction and HTTP 200 on success,
+                  or error message with HTTP 404/500 on failure.
+    """
     return get_transaction_by_id_controller(transaction_id)
 
-@transaction_bp.route("/user/transactions", methods=["GET"])
-@permission_required("viewer")
+@transaction_bp.route('/user/transactions', methods=['GET'])  # Endpoint to get transactions for authenticated user
+@permission_required('viewer')
 def get_transactions_by_user():
+    """
+    Handle GET /user/transactions to retrieve transactions of the authenticated user.
+
+    Requires 'viewer' permission.
+    Delegates JWT decoding and retrieval to controller.
+
+    Returns:
+        Response: JSON list of user transactions and HTTP 200 on success,
+                  or error message with HTTP 401/404/500 on failure.
+    """
     return get_transactions_by_user_controller()
