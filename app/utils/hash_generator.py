@@ -26,4 +26,4 @@ def generate_ots_filename(product_id, quantity, transaction_type, user_email):
 
     safe_email = user_email.replace("@", "_at_").replace(".", "_")
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
-    return f"transacao_{product_id}_{quantity}_{transaction_type}_{safe_email}_{timestamp}.bin"
+    return f"transaction_{product_id}_{quantity}_{transaction_type}_{safe_email}_{timestamp}.bin"

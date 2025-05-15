@@ -267,3 +267,26 @@ def get_transactions_by_user_controller():
     except Exception as e:
         # Unexpected server error
         return jsonify({"error": str(e)}), 500
+
+def verify_transaction_controller():
+    from flask import request, jsonify
+    from app.utils.ots_handler import verify_ots_file
+
+    data = request.get_json()
+    filename = data.get("ots_filename")
+
+    if not filename:
+        return jsonify({"error": "ots_filename is required"}), 400
+
+    result = verify_ots_file(filename)
+
+    if result.get("success"):
+        return jsonify({
+            "message": "Hash verified successfully",
+            "details": result.get("output", "")
+        }), 200
+    else:
+        return jsonify({
+            "message": result.get("message", "Verification failed."),
+            "details": result.get("output", "No additional info.")
+        }), 400

@@ -13,7 +13,8 @@ from app.controllers.transaction_controller import (
     get_transactions_by_product_controller,
     delete_transaction_controller,
     get_transaction_by_id_controller,
-    get_transactions_by_user_controller
+    get_transactions_by_user_controller,
+    verify_transaction_controller
 )
 from app.auth.permissions import permission_required
 
@@ -128,3 +129,22 @@ def get_transactions_by_user():
                   or error message with HTTP 401/404/500 on failure.
     """
     return get_transactions_by_user_controller()
+
+@transaction_bp.route('/api/transactions/verify', methods=['POST'])
+@permission_required('viewer')
+def verify_transaction():
+    """
+    Handle POST /api/transactions/verify to validate the integrity of a transaction
+    by checking its OTS file.
+
+    Requires 'viewer' permission.
+
+    Request JSON:
+        {
+            "ots_filename": "transacao_4_4_entry_admin_at_email_com_20250515T183422.bin.ots"
+        }
+
+    Returns:
+        Response: JSON with verification result and blockchain anchoring details.
+    """
+    return verify_transaction_controller()
