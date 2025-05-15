@@ -6,6 +6,8 @@ including stock adjustments, hash generation, and retrieval/deletion operations,
 interacting with ProductsRepository and TransactionsRepository.
 """
 
+import os
+from app.utils.ots_handler import OTS_FOLDER
 from app.infraDB.repositories.transactions_repositorie import TransactionsRepository
 from app.infraDB.repositories.products_repositorie import ProductsRepository
 from app.infraDB.models.transactions import TransactionType
@@ -193,3 +195,33 @@ def get_transactions_by_user(user_id):
     """
     repo = TransactionsRepository()
     return repo.select_transactions_by_user(user_id)
+
+def get_ots_file_by_transaction_id(transaction_id: int) -> dict:
+    """
+    Retrieve the .ots file metadata associated with a transaction.
+
+    Args:
+        transaction_id (int): The transaction ID.
+
+    Returns:
+        dict: A response with 'success', and either 'message' or 'directory'/'filename'.
+    """
+    transaction_repo = TransactionsRepository()
+    transaction = transaction_repo.select_transaction_by_id(transaction_id)
+
+    if not transaction:
+        return {"success": False, "message": "Transaction not found"}
+
+    if not transaction.ots_filename:
+        return {"success": False, "message": "OTS file not associated with this transaction"}
+
+    ots_path = os.path.join(OTS_FOLDER, transaction.ots_filename)
+
+    if not os.path.isfile(ots_path):
+        return {"success": False, "message": "OTS file not found on server"}
+
+    return {
+        "success": True,
+        "directory": OTS_FOLDER,
+        "filename": transaction.ots_filename
+    }

@@ -14,7 +14,8 @@ from app.controllers.transaction_controller import (
     delete_transaction_controller,
     get_transaction_by_id_controller,
     get_transactions_by_user_controller,
-    verify_transaction_controller
+    verify_transaction_controller,
+    download_ots_controller
 )
 from app.auth.permissions import permission_required
 
@@ -148,3 +149,19 @@ def verify_transaction():
         Response: JSON with verification result and blockchain anchoring details.
     """
     return verify_transaction_controller()
+
+@transaction_bp.route('/api/transactions/<int:transaction_id>/ots', methods=['GET'])
+@permission_required('viewer')
+def download_ots_file(transaction_id):
+    """
+    Handle GET /api/transactions/<id>/ots to download the .ots file associated with a transaction.
+
+    Requires 'viewer' permission.
+
+    Args:
+        transaction_id (int): ID of the transaction.
+
+    Returns:
+        Response: .ots file for download or 404 if not found.
+    """
+    return download_ots_controller(transaction_id)

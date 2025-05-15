@@ -5,7 +5,8 @@ Handles HTTP requests for creating entry and exit transactions, retrieving,
 deleting, and filtering transactions, including JWT-based user identification.
 """
 
-from flask import request, jsonify, current_app
+import os
+from flask import request, jsonify, current_app, send_from_directory
 from marshmallow import ValidationError
 from app.schemas.transaction_schema import TransactionInputSchema
 from app.services.transaction_service import (
@@ -15,7 +16,8 @@ from app.services.transaction_service import (
     get_transactions_by_product,
     delete_transaction_by_id,
     get_transaction_by_id,
-    get_transactions_by_user
+    get_transactions_by_user,
+    get_ots_file_by_transaction_id
 )
 from app.utils.formatters import format_transaction
 import jwt
@@ -290,3 +292,25 @@ def verify_transaction_controller():
             "message": result.get("message", "Verification failed."),
             "details": result.get("output", "No additional info.")
         }), 400
+
+def download_ots_controller(transaction_id: int):
+    """
+    Controller to return the .ots file for a given transaction ID.
+    Handles response formatting and errors.
+
+    Args:
+        transaction_id (int): ID of the transaction.
+
+    Returns:
+        Response: OTS file or error JSON.
+    """
+    result = get_ots_file_by_transaction_id(transaction_id)
+
+    if not result["success"]:
+        return jsonify({"error": result["message"]}), 404
+
+    return send_from_directory(
+        directory=os.path.abspath(result["directory"]),
+        path=result["filename"],
+        as_attachment=True
+    )
