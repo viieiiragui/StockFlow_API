@@ -17,7 +17,13 @@ def generate_transaction_hash_hex(product_id, quantity, transaction_type, user_e
 
 def generate_ots_filename(product_id, quantity, transaction_type, user_email):
     """
-    Generates a consistent filename for saving the .ots and .bin files.
+    Generates a unique filename for storing the hash and its .ots proof,
+    based on transaction data and timestamp.
+
+    Returns:
+        str: Base filename without extension (.bin or .ots will be added)
     """
+
     safe_email = user_email.replace("@", "_at_").replace(".", "_")
-    return f"transaction_{product_id}_{quantity}_{transaction_type}_{safe_email}.bin"
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S")
+    return f"transacao_{product_id}_{quantity}_{transaction_type}_{safe_email}_{timestamp}.bin"
