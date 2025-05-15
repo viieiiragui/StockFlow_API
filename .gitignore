@@ -7,6 +7,9 @@ instance/*
 .webassets-cache
 .env
 
+# Blockchain timestamp artifacts
+ots_data/
+
 ### Flask.Python Stack ###
 # Byte-compiled / optimized / DLL files
 __pycache__/

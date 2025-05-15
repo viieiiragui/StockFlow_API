@@ -9,8 +9,12 @@ interacting with ProductsRepository and TransactionsRepository.
 from app.infraDB.repositories.transactions_repositorie import TransactionsRepository
 from app.infraDB.repositories.products_repositorie import ProductsRepository
 from app.infraDB.models.transactions import TransactionType
-from app.utils.hash_generator import generate_transaction_hash
-from datetime import timezone, datetime
+from app.utils.hash_generator import (
+    generate_transaction_hash_hex,
+    generate_transaction_hash_bytes,
+    generate_ots_filename,
+)
+from app.utils.ots_handler import create_timestamp_file
 
 
 def create_entry_transaction(data, user_id, user_email):
@@ -41,21 +45,22 @@ def create_entry_transaction(data, user_id, user_email):
     if not product:
         raise ValueError("Product not found")
 
-    # Generate a unique hash for the blockchain record
-    transaction_hash = generate_transaction_hash(
-        product_id=product_id,
-        quantity=quantity,
-        transaction_type="entry",
-        user_email=user_email
-    )
+    # Generate hash (hex and binary) and filename
+    hash_bytes = generate_transaction_hash_bytes(product_id, quantity, "entry", user_email)
+    hash_hex = generate_transaction_hash_hex(product_id, quantity, "entry", user_email)
+    ots_filename = generate_ots_filename(product_id, quantity, "entry", user_email)
 
-    # Insert the entry transaction record
+    # Create the .ots
+    create_timestamp_file(hash_bytes, ots_filename)
+
+    # Save transaction with hash and .ots name
     transaction = transaction_repo.insert_transaction(
         product_id=product_id,
         type=TransactionType.ENTRY,
         quantity=quantity,
-        blockchain_hash=transaction_hash,
-        user_id=user_id
+        blockchain_hash=hash_hex,
+        user_id=user_id,
+        ots_filename=ots_filename + ".ots"
     )
 
     return transaction
@@ -96,21 +101,22 @@ def create_exit_transaction(data, user_email, user_id):
     # Remove stock from product
     product_repo.remove_stock(product_id, quantity)
 
-    # Generate a unique hash for the blockchain record
-    transaction_hash = generate_transaction_hash(
-        product_id=product_id,
-        quantity=quantity,
-        transaction_type="exit",
-        user_email=user_email
-    )
+    # Generate hash (hex and binary) and filename
+    hash_bytes = generate_transaction_hash_bytes(product_id, quantity, "exit", user_email)
+    hash_hex = generate_transaction_hash_hex(product_id, quantity, "exit", user_email)
+    ots_filename = generate_ots_filename(product_id, quantity, "exit", user_email)
 
-    # Insert the exit transaction record
+    # Create the .ots
+    create_timestamp_file(hash_bytes, ots_filename)
+
+    # Save transaction with hash and .ots name
     transaction = transaction_repo.insert_transaction(
         product_id=product_id,
         type=TransactionType.EXIT,
         quantity=quantity,
-        blockchain_hash=transaction_hash,
-        user_id=user_id
+        blockchain_hash=hash_hex,
+        user_id=user_id,
+        ots_filename=ots_filename + ".ots"
     )
 
     return transaction

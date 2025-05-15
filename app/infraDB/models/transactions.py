@@ -35,6 +35,7 @@ class Transactions(db.Model):
         type (TransactionType): Type of transaction ('entry' or 'exit').
         quantity (int): Quantity of product moved in this transaction.
         blockchain_hash (str): Hash string recording transaction integrity on blockchain.
+        ots_filename (str): Directory where the ots file is saved.
         created_at (datetime): UTC timestamp when the transaction was created.
         user (Users): Relationship to the Users model.
     """
@@ -46,6 +47,7 @@ class Transactions(db.Model):
     type = Column(Enum(TransactionType, name="transactiontype", create_type=False), nullable=False)
     quantity = Column(Integer, nullable=False)
     blockchain_hash = Column(String(66), nullable=False)
+    ots_filename = Column(String(255), nullable=True)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     # Relationship to Users model; allows accessing user who made this transaction

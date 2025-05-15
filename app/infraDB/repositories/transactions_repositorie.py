@@ -22,7 +22,7 @@ class TransactionsRepository:
         select_transactions_by_user(user_id): Retrieve transactions for a specific user.
     """
 
-    def insert_transaction(self, product_id, type, quantity, blockchain_hash, user_id):
+    def insert_transaction(self, product_id, type, quantity, blockchain_hash, user_id, ots_filename):
         """
         Create and persist a new transaction.
 
@@ -32,6 +32,7 @@ class TransactionsRepository:
             quantity (int): Quantity moved in the transaction.
             blockchain_hash (str): Blockchain hash for integrity tracking.
             user_id (int): ID of the user performing the transaction.
+            ots_filename (str): Directory where the ots file is saved
 
         Returns:
             Transactions: The created transaction instance.
@@ -42,7 +43,8 @@ class TransactionsRepository:
             type=type,
             quantity=quantity,
             blockchain_hash=blockchain_hash,
-            user_id=user_id
+            user_id=user_id,
+            ots_filename=ots_filename
         )
 
         db.session.add(data_insert)

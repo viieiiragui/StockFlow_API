@@ -73,8 +73,8 @@ class ProductSchema(Schema):
         required=True,
         validate=validate.Length(
             min=1,
-            max=10,
-            error="Code must be between 1 and 10 characters."
+            max=20,
+            error="Code must be between 1 and 20 characters."
         ),
         error_messages={"required": "The code field is required."}
     )

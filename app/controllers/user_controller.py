@@ -116,10 +116,6 @@ def update_user_controller(id):
                   or error messages with HTTP 400/404/500 on failure.
     """
     try:
-        # Validate that ID is positive
-        if id <= 0:
-            return jsonify({"error": "User ID must be positive"}), 400
-
         # Validate and deserialize request JSON using UserUpdateSchema
         data = UserUpdateSchema().load(request.json)
 
