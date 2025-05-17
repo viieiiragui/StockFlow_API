@@ -130,6 +130,54 @@ flask run
 
 ---
 
+## 🔑 Initial Access and Creation of the First User
+
+For **security** reasons, the system **does not have a public user registration endpoint**.  
+The creation of new users must be done **exclusively by authenticated administrators**.
+
+### 👤 How to create the first user?
+
+Since there is no pre-registered administrator, the first user **must be inserted manually into the database** via SQL.
+
+To do this, generate an encrypted `password_hash` using the script included in the project:
+
+#### 📄 Script: `generate_password.py`
+
+```bash
+python3 generate_password.py
+```
+> Enter the desired password (e.g.: admin123) and copy the generated hash.
+
+Then, execute the command below in your PostgreSQL database (adjust the fields as necessary):
+
+```sql
+INSERT INTO users (name, email, password_hash, permission, create_at)
+VALUES (
+  'Admin',
+  'admin@email.com',
+  'PASSWORD_HASH', -- BCRYPT HASH
+  'admin',
+  CURRENT_DATE
+);
+```
+
+### 🔐 User flow security
+- 🔒 There is no public registration (signup) available in the API
+
+- 👤 Only authenticated administrators can register, edit, and remove users
+
+- 🧩 This ensures complete control over access and prevents the creation of unauthorized accounts
+
+### 📌 After manually registering the first admin, you will be able to:
+
+- Log in using the /api/login endpoint
+
+- Use the returned JWT token to access protected endpoints
+
+- Create other users using the /api/users/create endpoint
+
+---
+
 ## 🧪 Postman
 
 You can test all API endpoints directly with the resources below:
