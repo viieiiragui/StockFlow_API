@@ -1,0 +1,27 @@
+# Virtual environments
+.venv/
+env/
+
+# Bytecode / cache
+__pycache__/
+*.py[cod]
+
+# Logs and temporary files
+*.log
+*.tmp
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+
+# Git
+.git
+.gitignore
+
+# System files
+*.swp
+*.bak
+
+# Local data
+ots_data/
