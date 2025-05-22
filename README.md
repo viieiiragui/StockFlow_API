@@ -35,7 +35,7 @@ The system offers:
 | **Authentication** | JWT (`PyJWT`) with encrypted password (`bcrypt`) |
 | **Serialization**  | Marshmallow                                |
 | **Env Management** | python-dotenv                              |
-| **Containerization**| Docker (TODO)                             |
+| **Containerization**| Docker + Docker Compose                   |
 
 ---
 
@@ -87,7 +87,7 @@ A template .env.example file is included in the repository to make initial setup
 
 ---
 
-## 💻 How to Run Locally
+## ⚙️ Manual Setup (without Docker)
 > Follow the steps below to run the StockFlow_API application in your local environment:
 
 ### 1. Clone the repository
@@ -128,6 +128,39 @@ flask run
 ```
 > The API will be available at: http://localhost:5000
 
+## 🐳 Running with Docker
+> The project includes a complete Docker environment for quick and reproducible setup. This includes the Flask API and a PostgreSQL container with volume persistence.
+
+### 1. Create a `.env` file from the example
+```bash
+cp .env.example .env
+```
+
+### 2. (Optional) Adjust default admin credentials
+Inside .env, change the values:
+```env
+ADMIN_EMAIL=admin@email.com
+ADMIN_PASSWORD=admin123
+```
+> These will be used to create the first admin user automatically when the container runs.
+
+### 3. Run the full stack with Docker Compose
+```env
+docker compose up --build
+```
+### 4. Finished! 👏 
+> The API will be available at: http://localhost:5000
+
+### Stopping and cleaning Docker!
+```bash
+docker compose down
+```
+> This will stop the containers but preserve the data stored in the volume pgdata.
+
+If you want to remove the volume too:
+```bash
+docker compose down -v
+```
 ---
 
 ## 🔑 Initial Access and Creation of the First User
